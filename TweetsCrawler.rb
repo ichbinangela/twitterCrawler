@@ -4,16 +4,16 @@ require 'mongo'
 include Mongo
 
 TweetStream.configure do |config|
-  config.consumer_key       = 'CPj6F72mHUi1tmH3TcQjL1sWT'
-  config.consumer_secret    = 'hSTtahV2HGhZuasPCzueHKplgc2n6CUGBbgGZkcArVBr3yXhso'
-  config.oauth_token        = '2383540880-bY8obZ1TzsdGkjEMFYoha9r2rtRj5vkHZ5lF4ub'
-  config.oauth_token_secret = 'fa5vK3szB3Tax3zdD4Hm7htXKtDnhsPVcK1PFIrOVq9Aq'
+  config.consumer_key       = 'BSuwskJn3PIMXn5HtMfCtWxSR'
+  config.consumer_secret    = 'jcZsfZHfq8asTkYocTzMbP8Gv2Hz2yljIMZkIlagOWX6mmKEGZ'
+  config.oauth_token        = '2872706030-trkMewFbhlwlVHbjPFcjO1ndUl56YkA3Uqm0MOA'
+  config.oauth_token_secret = 'OZSIh40x0dLD7KhPNgpOGSHT2WFHInVRTfZSBnTXzqvlm'
   config.auth_method        = :oauth
 end
 
 
-keyFilter = %w(id text lang media created_at user coordinates place entities)
-userFilter = %w(id name screen_name lang location description statuses_count)
+keyFilter = %w(id_str user created_at in_reply_to_status_id_str retweeted_status in_reply_to_user_id_str lang place retweeted retweet_count current_user_retweet favorite_count text entities)
+userFilter = %w(id_str name screen_name lang location description followers_count statuses_count friends_count verified)
 #puts keyFilter
 
 
@@ -22,10 +22,10 @@ while true do
 begin
 
   mongo_client = MongoClient.new("localhost", 27017)
-  coll = mongo_client['idea']['geo_tweets']
+  coll = mongo_client['tweets']['20141217']
 
   dataList = []
-  TweetStream::Client.new.locations(-180,-90,180,90) do |status|
+  TweetStream::Client.new.sample do |status|
   # The status object is a special Hash with
   # method access to its keys.
   #da(status.to_h)
@@ -49,7 +49,7 @@ begin
   
   end
 rescue
-  puts "Hey"
+  puts "GB says: Hey"
   sleep 10
 end
 end
